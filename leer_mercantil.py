@@ -2,14 +2,12 @@
 import xlsxwriter
 
 
-workbook = xlsxwriter.Workbook('Diciembre-2019.xlsx') 
+workbook = xlsxwriter.Workbook('Agosto-2019.xlsx') 
 worksheet = workbook.add_worksheet() 
 
 row = 0
 column = 0
-  
-
-f = open("Diciembre-2019.txt", 'r')
+f = open("Agosto-2019.txt", 'r')
 
 
 for linea in f.readlines():
@@ -27,6 +25,16 @@ for linea in f.readlines():
 
 	descripcion=linea[50:p_monto_debe-2]
 	
+
+	debe=linea[p_monto_debe+1:p_monto_haber].strip()
+	haber=linea[p_monto_haber+1:p_codigo_transaccion].strip()
+	debe_f=debe
+	haber_f=haber
+	len_linea=len(linea)
+	#print(p_codigo_transaccion)	
+	codigo_transaccion =linea[p_codigo_transaccion+1:len_linea]
+	codigo_transaccion=codigo_transaccion.strip()
+	#print("Debe : "+debe +" Haber: "+haber)	
 	#print("codigo_transaccion :"+str(linea[p_codigo_transaccion:len(linea)]) +" monto_haber :"+str(linea[p_monto_haber:p_codigo_transaccion-1])+ " monto_debe :"+str(linea[p_monto_debe:p_monto_haber-1]))
 
 	worksheet.write(row, 0, banco) 
@@ -37,9 +45,9 @@ for linea in f.readlines():
 	worksheet.write(row, 5, documento)
 	worksheet.write(row, 6, descripcion)
 	
-	worksheet.write(row, 7, str(linea[p_monto_debe:p_monto_haber-1])) 
-	worksheet.write(row, 8, str(linea[p_monto_haber:p_codigo_transaccion-1])) 
-	worksheet.write(row, 9, linea[p_codigo_transaccion:len(linea)]) 
+	worksheet.write(row, 7, debe_f)
+	worksheet.write(row, 8, haber_f)
+	worksheet.write(row, 9, codigo_transaccion) 
 	row += 1
 f.close()
 workbook.close() 
